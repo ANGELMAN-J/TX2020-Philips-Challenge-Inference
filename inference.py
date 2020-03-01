@@ -67,7 +67,7 @@ for filename in os.listdir(PATH_TO_VALIDATION_IMAGES):
     print(result_string, end='')
 
     try:
-        img_og = Image.open(PATH_TO_VALIDATION_IMAGES + filename)
+        img_og = Image.open(PATH_TO_VALIDATION_IMAGES + filename).convert('RGB')
     except:
         print('WARNING: PIL failed to load {}. Skipping this file.'.format(filename))
         continue
