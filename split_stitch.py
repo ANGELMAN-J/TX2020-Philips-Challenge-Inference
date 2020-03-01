@@ -17,16 +17,18 @@ def split_file(input_file_path: str, max_size: int = 1e+7):
         pass
 
     i = 0
-    while chunk:  # loop until the chunk is empty (the file is exhausted)
+    while chunk:  # while chunk is not empty
         with open('Chunks_for_{og_file}/{i}.chunk'.format(i=i, og_file=input_file_path), 'wb') as out_f:
             out_f.write(chunk)
-        chunk = in_f.read(max_size)  # read the next chunk
+        chunk = in_f.read(max_size)
         i += 1
 
     in_f.close()
 
 
 def stitch_file(folder_path: str, out_path: str):
+    """
+    """
     with open(out_path, 'wb') as out_f:
         list_of_chunk_files = []
         i = 0
@@ -39,5 +41,3 @@ def stitch_file(folder_path: str, out_path: str):
             with open(chunk_file_name, 'rb') as in_f:
                 chunk = in_f.read()
                 out_f.write(chunk)
-
-

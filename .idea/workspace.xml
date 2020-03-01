@@ -36,7 +36,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.inference">
+  <component name="RunManager" selected="Python.split_stitch">
     <configuration name="inference" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TX2020 Philips Inference" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -120,7 +120,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/split_stitch.py</url>
-          <line>37</line>
+          <line>39</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>

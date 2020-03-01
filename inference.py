@@ -1,14 +1,14 @@
 import torch
 import torchvision
 from torchvision.models import vgg11_bn
-from torchvision import datasets, models, transforms
+from torchvision import transforms
 from PIL import Image
 import os
+from split_stitch import split_file, stitch_file
 
-from split_stitch import split_file
-
-PATH_TO_STATE_DICT = 'RECONSTRUCTED_Trained_Model/model.statedict'
-PATH_TO_MODEL = 'RECONSTRUCTED_Trained_Model/model.model'
+PATH_TO_STATE_DICT = 'Trained_Model/model.statedict'
+PATH_TO_STATE_DICT_CHUNKS = 'Chunks_for_Trained_Model_model.statedict/'
+# PATH_TO_MODEL = 'RECONSTRUCTED_Trained_Model/model.model'
 PATH_TO_VALIDATION_IMAGES = 'VALIDATION_IMAGES/'
 
 IMG_EXTENSIONS = ('.jpg', '.png', '.jpeg', '.bmp', '.gif', '.ppm')
@@ -23,18 +23,23 @@ if device.type != 'cpu':
 else:
     print('not available. Using CPU for inference. This might take a bit longer.')
 
-# stitch_file('Chunks_for_Trained_Model_model.statedict/', 'RECONSTRUCTED_Trained_Model/model.statedict')
-
+if os.path.exists(PATH_TO_STATE_DICT):
+    print('Model statedict containing the weights exists.')
+else:
+    if ~ os.path.exists('Trained_Model/'):
+        os.mkdir('Trained_Model/')
+    print('Model statedict does not exist. The file will be reconstructed from the chunks.')
+    stitch_file(PATH_TO_STATE_DICT_CHUNKS, PATH_TO_STATE_DICT)
+    print('Model stitched.')
 
 print('Loading Model... Please be patient. Thanks!')
-try:
-    assert(False)
-    model = vgg11_bn(pretrained=False)
-    model.classifier[-1] = torch.nn.Linear(in_features=4096, out_features=4, bias=True)
-    model.load_state_dict(torch.load(PATH_TO_STATE_DICT, map_location=device))
-except:
-    print('WARNING: Loading model from statedict failed. Attempting to load whole model directly instead.')
-    model = torch.load(PATH_TO_MODEL, map_location=device)
+# try:
+model = vgg11_bn(pretrained=False)
+model.classifier[-1] = torch.nn.Linear(in_features=4096, out_features=4, bias=True)
+model.load_state_dict(torch.load(PATH_TO_STATE_DICT, map_location=device))
+# except:
+#     print('WARNING: Loading model from statedict failed. Attempting to load whole model directly instead.')
+#     model = torch.load(PATH_TO_MODEL, map_location=device)
 model.eval()
 print('Model loaded.\nDefining image transformations...')
 
