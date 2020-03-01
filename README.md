@@ -9,6 +9,19 @@ This repo contains a finetuned CNN and a script for easy inference.
 4. the results will be shown in the script output as well as in a file called 'validation_output.txt'. 
 This file is formatted to comply with the instructions, thus no confidence etc. is provided.
 
+Please not that the code is written to take advantage of a GPU, if it is available, and use the CPU otherwise. 
+If this creates issues (there is a small chance that on MAC the specified pytorch version might have trouble with cuda),
+just replace line 20 in inference.py with "device = torch.device('cpu')".
+
+Additionally, since solutions have to be shared to github, and github limits files to be <100MB, I split the model weights
+into chunks using the code in "split_stitch.py" which is then stitched together the first time "inference.py" is run. 
+This should work without issue, but in case there is a problem, please contact me so I can provide a direct download link
+to the model on gDrive.
+
+Finally, if you don't have any images of the four applicances ready, you can try out the code with the images 
+in "EXAMPLE_VALIDATION_IMAGES/". Just copy them to "VALIDATION_IMAGES/" and run inference.py. Note that 3/4 of those images
+were used for training, so they do not reflect the model performance accurately.
+
 ### Challenge
 Detailed information [can be found here](https://brainporteindhoven.com/int/techxperience/challenges/philips/) but in 
 a nutshell, 20 images each of 4 philips appliances were provided as a training set to create an algorithm that can 
@@ -37,7 +50,8 @@ think that it sees the bottle. Some of the strategies I discuss below might have
 
 ### Further thoughts
 The current approach seems to work well according to my test set. There were many cool ideas that I didn't pursue 
-due to the small data set size, like 1., and other approaches that would be possible but that I think verge on cheating.
+due to the small data set size, like 1.; approach 2. that would be possible but that I think verge on cheating,
+approach 3./4. due to computational and storage constraints I had.
 #### 1. Detection -> recognition
 Given the provided training images, we would expect that the objects in question might only make up a small part of the 
 images and that they can appear in any location. Thus, finding the most interesting candidate regions first and then
@@ -52,3 +66,6 @@ Relatedly, since the products always look the same, it would have been possible 
 images to cut out all the products and put them on a transparent background. Then, one could have written a script to 
 take random background images (i.e. Imagenet, random google searches etc.) and impose the products on them, plus adding
 a bit of noise to the product image to prevent overfitting.
+#### 4. Use crossvalidation instead of train-val-test-split /  create an ensemble
+Those strategies would have been also quite effective but given the file size restrictions of github, and my computational constraints,
+I had to forgo them.
