@@ -2,4 +2,5 @@ Trained_Model/
 # EXAMPLE_VALIDATION_IMAGES/
 RECONSTRUCTED_Trained_Model/
 VALIDATION_IMAGES/*
+__pycache__/
 .idea/
