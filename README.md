@@ -56,8 +56,8 @@ approach 3./4. due to computational and storage constraints I had.
 Given the provided training images, we would expect that the objects in question might only make up a small part of the 
 images and that they can appear in any location. Thus, finding the most interesting candidate regions first and then
 running a classification network on them might be more effective. However, I think such approaches would have required
-much more data. [A paper that pursues such an approach for medical images can be found here]
-(https://arxiv.org/abs/2002.07613), but they used more than 1 million images. 
+much more data. [A paper that pursues such an approach for medical images can be found here](https://arxiv.org/abs/2002.07613), 
+but they used more than 1 million images. 
 #### 2. Massive image augmentation
 Generally, whoever did the most image augmentation will likely win the challenge. It would have been possible, for in-
 stance to buy all four appliances and take a few dozen or hundred of pictures each; or to exhaustively search the internet.
