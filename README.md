@@ -25,28 +25,29 @@ were used for training, so they do not reflect the model performance accurately.
 ### Challenge
 Detailed information [can be found here](https://brainporteindhoven.com/int/techxperience/challenges/philips/) but in 
 a nutshell, 20 images each of 4 philips appliances were provided as a training set to create an algorithm that can 
-identify them on new photos. Each picture contains exactly on product and the products are at different angles, 
+identify them on new photos. Each picture contains exactly one product and the products are at different angles, 
 appear in front of different backgrounds in different parts of the pictures, and take up varying amounts of space.
 
 According to the material provided, the results will be evaluated in terms of accuracy (and not say, log_loss or AUC),
 and limitless image augmentation was allowed.
 
 ### Approach
-I decided to finetune a cnn pre-trained on imagenet. I tested a few vgg and resnet versions and VGG11 with batchnorm 
-performed best on the validation data. With the help of google images, I added a few extra images per class.
-Then I split off a held-out test set, and trained with a train/validation split.
+I decided to finetune a cnn pre-trained on imagenet. I tested a few vgg and resnet versions, and VGG11 with batchnorm 
+performed best on the validation data. Then I split off a held-out test set, and trained with a train/validation split. With the help of google images, I added a handful of extra images per class to the train set, although do differ noticably from the original train set.
 
 For training, I added heavy image augmentation to the train set, and finetuned the cnn in multiple phases.
 In the first phase, the last fully connected layer was trained while the rest of the network was frozen. 
 Then, progressively  the other fully connected layers were added. Next, the last block of the vgg16 was progressively trained.
-And finally both the last block and the fully connected layers were trained together.
+And finally both the last block and the fully connected layers were trained together. Additionally, for the last few epochs per phase,
+the model was only trained on the original images and not on the extra images, to bias the model more towards recognising images correctly
+that come from the original distrubtion, rather than the noisier ones found online.
 
 According to my test-set, this approach seemed to be surprisingly effective. 
 <p float="left">
   <img src="Model performance test set.png" width="750" />
 </p>
 However, it appears that the background can often throw the model off. For instance, round features make the model 
-think that it sees the bottle. Some of the strategies I discuss below might have been effective to mitigate this.
+think that it sees the bottle. Some of the strategies I discuss below might have been effective to mitigate this. A small thing that I do for inference is that I conduct inference on flipped versions of the images, since we know that products could appear in almost any orientation and that the products all look the same when mirrored.
 
 ### Further thoughts
 The current approach seems to work well according to my test set. There were many cool ideas that I didn't pursue 
