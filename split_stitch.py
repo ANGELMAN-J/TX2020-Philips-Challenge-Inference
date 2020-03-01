@@ -28,6 +28,8 @@ def split_file(input_file_path: str, max_size: int = 1e+7):
 
 def stitch_file(folder_path: str, out_path: str):
     """
+    Stitches the chunks found in the specified folder together and writes them as the file specified in out_path.
+    Assumes that chunks are named {i}.chunk sequentially, just like output from split_file().
     """
     with open(out_path, 'wb') as out_f:
         list_of_chunk_files = []
