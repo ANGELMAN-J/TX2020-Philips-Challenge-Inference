@@ -36,7 +36,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.split_stitch">
+  <component name="RunManager" selected="Python.inference">
     <configuration name="inference" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TX2020 Philips Inference" />
       <option name="INTERPRETER_OPTIONS" value="" />

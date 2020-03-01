@@ -2,9 +2,11 @@ import torch
 import torchvision
 from torchvision.models import vgg11_bn
 from torchvision import transforms
+
 from PIL import Image
 import os
-from split_stitch import split_file, stitch_file
+
+from split_stitch import stitch_file
 
 PATH_TO_STATE_DICT = 'Trained_Model/model.statedict'
 PATH_TO_STATE_DICT_CHUNKS = 'Chunks_for_Trained_Model_model.statedict/'
@@ -55,10 +57,6 @@ print('Transforms defined.\nStarting inference now.\n'
       ' meaning that that an image named "IMG10.jpg" might be evaluated BEFORE one named "IMG9.jpg"')
 
 output = ""
-wrong=""
-right=""
-wrong_c=0
-right_c=0
 for filename in os.listdir(PATH_TO_VALIDATION_IMAGES):
     if not filename.lower().endswith(IMG_EXTENSIONS):
         print(
@@ -105,15 +103,6 @@ for filename in os.listdir(PATH_TO_VALIDATION_IMAGES):
     _, preds = torch.max(outputs, 1)
     predicted = CLASSES[preds]
 
-    if not predicted in filename:
-        wrong+=filename
-        wrong+='\n'
-        wrong_c +=1
-    else:
-        right+=filename
-        right+='\n'
-        right_c +=1
-
     result_string += "{CLASS}\n".format(CLASS=predicted)
     print("{CLASS}\n".format(CLASS=predicted), end='')
 
@@ -125,9 +114,3 @@ with open("validation_output.txt", "w") as output_file:
     output_file.write(output)
 
 print('Output file created.\nScript Finished.')
-
-print(right_c/(wrong_c+right_c)*100)
-
-print(wrong)
-print('++++++++++')
-print(right)
